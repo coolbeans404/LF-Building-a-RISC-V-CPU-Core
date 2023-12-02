@@ -62,7 +62,7 @@
    $opcode[6:0] = $instr[6:0];
    $rs1[4:0] = $instr[19:15];
    $rs2[4:0] = $instr[24:20];
-   $rd[4:0] = $instr[11:6];
+   $rd[4:0] = $instr[11:7];
    $func3[2:0] = $instr[14:12];
    
    //if_immediate -- i verified
@@ -77,7 +77,7 @@
    $rd_valid = $is_r_instr || $is_i_instr || $is_u_instr || $is_j_instr;
    $rs1_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;
    $rs2_valid = $is_r_instr || $is_s_instr || $is_b_instr;
-   $func3_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;
+   $funct3_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;
    $imm_valid = $is_i_instr || $is_s_instr || $is_b_instr || $is_u_instr || $is_j_instr;
    
    //Supress Warnings for Unused Signals
@@ -99,14 +99,17 @@
    `BOGUS_USE($dec_bits $is_beq $is_bne $is_blt $is_bge $is_bltu $is_bgeu $is_addi $is_add)
    //end Decode
    
-   //R
+   //ALU
+   $result[31:0] =
+    $is_addi ? $src1_value + $imm :
+    $is_add ? $src1_value + $src2_value:
+               32'b0;
    
    // Assert these to end simulation (before Makerchip cycle limit).
    *passed = 1'b0;
    *failed = *cyc_cnt > M4_MAX_CYC;
    
-   //write_enable == 1'b0
-   m4+rf(32, 32, $reset, 1'b0, $wr_index[4:0], $wr_data[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
+   m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
    //m4+dmem(32, 32, $reset, $addr[4:0], $wr_en, $wr_data[31:0], $rd_en, $rd_data)
    m4+cpu_viz()
 \SV
