@@ -42,10 +42,9 @@
    
    $reset = *reset;
    
-   
-   // YOUR CODE HERE
-   // ...
-   
+   //Program Counter -- Sequential Only ATM
+   $pc[31:0] = >>1$next_pc + 1;
+   $next_pc[31:0] = $reset ? 32'b0 : $pc;
    
    // Assert these to end simulation (before Makerchip cycle limit).
    *passed = 1'b0;
