@@ -29,6 +29,7 @@
    // Test result value in x14, and set x31 to reflect pass/fail.
    m4_asm(ADDI, x30, x14, 111111010100) // Subtract expected value of 44 to set x30 to 1 if and only iff the result is 45 (1 + 2 + ... + 9).
    m4_asm(BGE, x0, x0, 0) // Done. Jump to itself (infinite loop). (Up to 20-bit signed immediate plus implicit 0 bit (unlike JALR) provides byte address; last immediate bit should also be 0)
+   //m4_asm(ADDI, x0, x14, 1)	//write non-zero -- check for de-assert
    m4_asm_end()
    m4_define(['M4_MAX_CYC'], 50)
    //---------------------------------------------------------------------------------
@@ -74,10 +75,10 @@
                               32'b0;  // Default
    
    //if_valid
-   $rd_valid = $is_r_instr || $is_i_instr || $is_u_instr || $is_j_instr;
+   $rd_valid = ($is_r_instr || $is_i_instr || $is_u_instr || $is_j_instr) && ($rd != 00);
    $rs1_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;
    $rs2_valid = $is_r_instr || $is_s_instr || $is_b_instr;
-   $funct3_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;
+   $func3_valid = $is_r_instr || $is_i_instr || $is_s_instr || $is_b_instr;
    $imm_valid = $is_i_instr || $is_s_instr || $is_b_instr || $is_u_instr || $is_j_instr;
    
    //Supress Warnings for Unused Signals
@@ -93,7 +94,7 @@
    $is_bgeu = $dec_bits ==? 11'bx_111_1100011;
    
    $is_addi = $dec_bits ==? 11'bx_000_0010011;
-   $is_add = $dec_bits ==? 11'b0_000_0010011;
+   $is_add = $dec_bits ==? 11'b0_000_0110011;
    
    //Supress Warnings for Unused Signals
    `BOGUS_USE($dec_bits $is_beq $is_bne $is_blt $is_bge $is_bltu $is_bgeu $is_addi $is_add)
