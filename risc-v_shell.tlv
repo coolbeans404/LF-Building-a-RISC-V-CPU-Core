@@ -44,8 +44,11 @@
    $reset = *reset;
    
    //Program Counter -- Sequential Only ATM
-   $pc[31:0] = >>1$next_pc + 1;
-   $next_pc[31:0] = $reset ? 32'b0 : $pc;
+   $pc[31:0] = >>1$next_pc;
+   $next_pc[31:0] = $reset ? 32'b0 :
+    $taken_br ? $br_tgt_pc:
+    $pc+4;
+   
    
    //IMem -- Instantiating a Verilog Macro
    `READONLY_MEM($pc, $$instr[31:0])
@@ -69,7 +72,7 @@
    //if_immediate -- i verified
    $imm[31:0] = $is_i_instr ? {{21{$instr[31]}}, $instr[30:20]} :
                 $is_s_instr ? {{21{$instr[31]}}, $instr[30:25], $instr[11:8], $instr[7]} :
-                $is_b_instr ? {{19{$instr[31]}}, {2{$instr[7]}}, $instr[30:25], $instr[11:8], $instr[7], 1'b0} :
+                $is_b_instr ? {{19{$instr[31]}}, {2{$instr[7]}}, $instr[30:25], $instr[11:8], 1'b0} :
                 $is_u_instr ? {$instr[31:12], 12'b0} :
                 $is_j_instr ? {{11{$instr[31]}}, $instr[19:12], {2{$instr[20]}}, $instr[30:25], $instr[24:21], 1'b0} :
                               32'b0;  // Default
@@ -105,6 +108,18 @@
     $is_addi ? $src1_value + $imm :
     $is_add ? $src1_value + $src2_value:
                32'b0;
+   
+   //Branch -- how to implement the unsigned part?
+   $taken_br = 
+    $is_beq ? ($src1_value == $src2_value ? 1'b1 : 1'b0):
+    $is_bne ? ($src1_value != $src2_value ? 1'b1 : 1'b0):
+    $is_blt ? (($src1_value < $src2_value) ^ ($src1_value[31] != $src2_value[31]) ? 1'b1 : 1'b0):
+    $is_bge ? (($src1_value >= $src2_value) ^ ($src1_value[31] != $src2_value[31]) ? 1'b1 : 1'b0):
+    $is_bltu ? ($src1_value < $src2_value ? 1'b1 : 1'b0):
+    $is_bgeu ? ($src1_value >= $src2_value ? 1'b1 : 1'b0):
+    1'b0;
+    
+   $br_tgt_pc[31:0] = $pc + $imm;
    
    // Assert these to end simulation (before Makerchip cycle limit).
    *passed = 1'b0;
