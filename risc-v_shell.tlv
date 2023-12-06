@@ -23,6 +23,8 @@
    $pc[31:0] = >>1$next_pc;
    $next_pc[31:0] = $reset ? 32'b0 :
     $taken_br ? $br_tgt_pc:
+    $is_jal ? $br_tgt_pc:
+    $is_jalr ? $jalr_tgt_pc:
     $pc+4;
    
    
@@ -160,6 +162,7 @@
     1'b0;
     
    $br_tgt_pc[31:0] = $pc + $imm;
+   $jalr_tgt_pc[31:0] = $src1_value + $imm;
    
    // Assert these to end simulation (before Makerchip cycle limit).
    *passed = 1'b0;
