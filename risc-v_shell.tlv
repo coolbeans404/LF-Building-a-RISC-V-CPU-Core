@@ -82,7 +82,8 @@
    $is_jalb = $dec_bits ==? 11'bx_000_1100111;
    $is_slti = $dec_bits ==? 11'bx_010_0010011;
    $is_sltiu = $dec_bits ==? 11'bx_011_0010011;
-   $is_xori = $dec_bits ==? 11'bx_110_0010011;
+   $is_xori = $dec_bits ==? 11'bx_100_0010011;
+   $is_ori = $dec_bits ==? 11'bx_110_0010011;
    $is_andi = $dec_bits ==? 11'bx_111_0010011;
    $is_slli = $dec_bits ==? 11'b0_001_0010011;
    $is_srli = $dec_bits ==? 11'b0_101_0010011;
@@ -101,13 +102,35 @@
    `BOGUS_USE($dec_bits $is_beq $is_bne $is_blt $is_bge $is_bltu $is_bgeu $is_addi $is_add)
    //end Decode
    
-   //ALU
+   //SLTU (Set if less than, unsigned)
+   $sltu_rslt[31:0] = {31'b0, $src1_value < $src2_value};
+   $sltiu_rslt[31:0] = {31'b0, $src1_value < $imm};
+   
+   // SRA and SRAI (shift right,arithmetic) results:
+   // sign-extended src1
+   $sext_src1[63:0] = {{32{$src1_value[31]}}, $src1_value};
+   // 64-bit sign-extended results. to be truncated
+   $sra_rslt[63:0] = $sext_src1 >> $src2_value[4:0];
+   $srai_rslt[63:0] = $sext_src1 >> $imm[4:0];
+   
+   //ALU(std+imm)
+   //switch
    $result[31:0] =
-    $is_addi ? $src1_value + $imm :
+     //arith
+    $is_addi ? $src1_value + $imm:
     $is_add ? $src1_value + $src2_value:
+    //set
+    $is_sltu ? $sltu_rslt:
+    $is_sltiu ? $sltiu_rslt:
+    //shift
+    $is_sra ? $sra_rslt[31:0]:
+    $is_srai ? $srai_rslt[31:0]:
+    //logic
+    $is_xori ? $src1_value ^ $imm:
                32'b0;
    
-   //Branch -- how to implement the unsigned part?
+   
+   //Branch -- how to implement the 	unsigned part?
    $taken_br = 
     $is_beq ? ($src1_value == $src2_value ? 1'b1 : 1'b0):
     $is_bne ? ($src1_value != $src2_value ? 1'b1 : 1'b0):
