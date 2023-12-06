@@ -5,11 +5,9 @@
    m4_include_lib(['https://raw.githubusercontent.com/stevehoover/LF-Building-a-RISC-V-CPU-Core/main/lib/risc-v_shell_lib.tlv'])
 
 
-
    //---------------------------------------------------------------------------------
    m4_test_prog()	//All register test
    //---------------------------------------------------------------------------------
-
 
 
 \SV
@@ -67,6 +65,7 @@
    
    //Instruction: func3
    $dec_bits[10:0] = {$instr[30],$func3,$opcode};
+   $is_load = $dec_bits ==? 11'bx_xxx_0000011;
    //branch
    $is_beq = $dec_bits ==? 11'bx_000_1100011;
    $is_bne = $dec_bits ==? 11'bx_001_1100011;
@@ -142,14 +141,19 @@
     $is_ori ? $src1_value | $imm:
     $is_xor ? $src1_value ^ $src2_value:
     $is_xori ? $src1_value ^ $imm:
-    //load
+    //mem
     $is_lui ? {$imm[31:12],12'b0}:
+    $is_load ? $rs1 + $imm: //get dmem addr
+    $is_s_instr ? $rs1 + $imm:
     //pc
     $is_auipc ? $pc+$imm:
     $is_jal ? $pc + 32'd4:
     $is_jalr ? $pc + 32'd4:
                32'b0;
    
+   //Result or Load Mux
+   $result_rf[31:0] = $is_load ? $ld_data:
+    $result;
    
    //Branch -- how to implement the 	unsigned part?
    $taken_br = 
@@ -160,7 +164,8 @@
     $is_bltu ? ($src1_value < $src2_value ? 1'b1 : 1'b0):
     $is_bgeu ? ($src1_value >= $src2_value ? 1'b1 : 1'b0):
     1'b0;
-    
+   
+   //Jump/Branch PC
    $br_tgt_pc[31:0] = $pc + $imm;
    $jalr_tgt_pc[31:0] = $src1_value + $imm;
    
@@ -168,8 +173,8 @@
    *passed = 1'b0;
    *failed = *cyc_cnt > M4_MAX_CYC;
    
-   m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
-   //m4+dmem(32, 32, $reset, $addr[4:0], $wr_en, $wr_data[31:0], $rd_en, $rd_data)
+   m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
+   m4+dmem(32, 32, $reset, $result[6:2], $is_s_instr, $src2_value[31:0], $is_load, $ld_data)
    m4+cpu_viz()
 \SV
    endmodule
