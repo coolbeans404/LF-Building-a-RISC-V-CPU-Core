@@ -17,7 +17,7 @@
    
    $reset = *reset;
    
-   //Program Counter -- Sequential Only ATM
+   //Program Counter
    $pc[31:0] = >>1$next_pc;
    $next_pc[31:0] = $reset ? 32'b0 :
     $taken_br ? $br_tgt_pc:
