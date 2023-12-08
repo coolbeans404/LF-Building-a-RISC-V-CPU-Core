@@ -2,7 +2,7 @@
 \SV
    // This code can be found in: https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/risc-v_shell.tlv
    
-   m4_include_lib(['https://raw.githubusercontent.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/main/lib/risc-v_shell_lib.tlv'])
+   m4_include_lib(['https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/blob/b03e14bc3c0c6610e09b808e84d12d688096c165/lib/risc-v_shell_lib.tlv'])
 
 
    //---------------------------------------------------------------------------------
