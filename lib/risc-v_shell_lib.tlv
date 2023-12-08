@@ -178,12 +178,19 @@ m4+definitions(['
                   this.global.canvas.renderAll()
                }, 1500)
             }
+            }
             return [reg_str]
          },
          where: {left: 316, top: -40}
 		 
 // Instruction Memory
 \TLV imem(_entries, _width, $_reset, $_addr, $_port1_en, $_port1_data, $_port2_data)
+	\SV_plus
+         // The program in an instruction memory.
+         wire [31:0] instrs [0:M4_NUM_INSTRS-1];
+         m4_forloop(['m4_instr_ind'], 0, M4_NUM_INSTRS, ['assign instrs[m4_echo(m4_instr_ind)] = m4_echo(['m4_instr']m4_instr_ind; ['']m4_new_line               )'])  
+		/M4_IMEM_HIER
+         $instr[31:0] = *instrs\[#imem\];
    // Allow expressions for most inputs, so define input signals.
    $imem1_wr_en = $_port1_en;
    $imem1_addr[\$clog2(_entries)-1:0] = $_addr;

@@ -27,7 +27,7 @@
    
    
    //IMem -- Instantiating a Verilog Macro
-   `READONLY_MEM($pc, $$instr[31:0])
+   //`READONLY_MEM($pc, $$instr[31:0])
    
    //start Decode
    //opcode
@@ -173,6 +173,7 @@
    *passed = 1'b0;
    *failed = *cyc_cnt > M4_MAX_CYC;
    
+   m4+imem($clog2($size(instrs)), 32, $reset, $pc, $port1_en, $port1_data[31:0], $$instrs[31:0])
    m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
    m4+dmem(32, 32, $reset, $result[6:2], $is_s_instr, $src2_value[31:0], $is_load, $ld_data)
    m4+cpu_viz()
