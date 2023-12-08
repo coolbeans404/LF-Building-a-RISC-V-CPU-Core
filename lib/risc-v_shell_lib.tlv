@@ -181,6 +181,16 @@ m4+definitions(['
             return [reg_str]
          },
          where: {left: 316, top: -40}
+		 
+// Instruction Memory
+\TLV imem(_entries, _width, $_reset, $_addr, $_port1_en, $_port1_data, $_port2_data)
+   // Allow expressions for most inputs, so define input signals.
+   $imem1_wr_en = $_port1_en;
+   $imem1_addr[\$clog2(_entries)-1:0] = $_addr;
+   $imem1_wr_data[_width-1:0] = $_port1_data;
+   
+   $imem1_rd_en = 1'b1; //always readable
+   $_port2_data[_width-1:0] = $imem1_rd_en ? /imem[$imem1_addr]$value : 'X;
          
 // Data Memory
 \TLV dmem(_entries, _width, $_reset, $_addr, $_port1_en, $_port1_data, $_port2_en, $_port2_data)
