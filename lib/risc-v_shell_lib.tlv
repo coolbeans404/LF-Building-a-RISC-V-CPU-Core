@@ -185,6 +185,8 @@ m4+definitions(['
 		 
 // Instruction Memory
 \TLV imem(_entries, _width, $_reset, $_addr, $_port1_en, $_port1_data, $_port2_data)
+ \SV_plus
+  logic [31:0] instrs [0:M4_NUM_INSTRS-1]; assign DATA = instrs[ADDR[$clog2($size(instrs)) + 1 : 2]]; assign instrs = '{m4_instr0['']m4_forloop(['m4_instr_ind'], 1, M4_NUM_INSTRS, [', m4_echo(['m4_instr']m4_instr_ind)'])};
    // Allow expressions for most inputs, so define input signals.
    $imem1_wr_en = $_port1_en;
    $imem1_addr[\$clog2(_entries)-1:0] = $_addr;
