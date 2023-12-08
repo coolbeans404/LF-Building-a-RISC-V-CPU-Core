@@ -1,12 +1,12 @@
 \m4_TLV_version 1d: tl-x.org
 \SV
-   // This code can be found in: https://github.com/stevehoover/LF-Building-a-RISC-V-CPU-Core/risc-v_shell.tlv
+   // This code can be found in: https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/risc-v_shell.tlv
    
-   m4_include_lib(['https://raw.githubusercontent.com/stevehoover/LF-Building-a-RISC-V-CPU-Core/main/lib/risc-v_shell_lib.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/main/lib/risc-v_shell_lib.tlv'])
 
 
    //---------------------------------------------------------------------------------
-   m4_test_prog()	//All register test
+   m4_test_prog()	//RV32I-I/S test
    //---------------------------------------------------------------------------------
 
 
@@ -23,7 +23,7 @@
     $taken_br ? $br_tgt_pc:
     $is_jal ? $br_tgt_pc:
     $is_jalr ? $jalr_tgt_pc:
-    $pc+4;
+    $pc+32'd4;
    
    
    //IMem -- Instantiating a Verilog Macro
@@ -45,7 +45,7 @@
    $rd[4:0] = $instr[11:7];
    $func3[2:0] = $instr[14:12];
    
-   //if_immediate -- i verified
+   //if_immediate
    $imm[31:0] = $is_i_instr ? {{21{$instr[31]}}, $instr[30:20]} :
                 $is_s_instr ? {{21{$instr[31]}}, $instr[30:25], $instr[11:8], $instr[7]} :
                 $is_b_instr ? {{19{$instr[31]}}, {2{$instr[7]}}, $instr[30:25], $instr[11:8], 1'b0} :
@@ -155,7 +155,7 @@
    $result_rf[31:0] = $is_load ? $ld_data:
     $result;
    
-   //Branch -- how to implement the 	unsigned part?
+   //Branch
    $taken_br = 
     $is_beq ? ($src1_value == $src2_value ? 1'b1 : 1'b0):
     $is_bne ? ($src1_value != $src2_value ? 1'b1 : 1'b0):
