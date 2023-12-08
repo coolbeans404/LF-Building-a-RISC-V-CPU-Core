@@ -2,7 +2,7 @@
 \SV
    // This code can be found in: https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/risc-v_shell.tlv
    
-   m4_include_lib(['https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/blob/b03e14bc3c0c6610e09b808e84d12d688096c165/lib/risc-v_shell_lib.tlv'])
+   m4_include_lib(['https://raw.githubusercontent.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/gfmpw1/lib/risc-v_shell_lib.tlv'])
 
 
    //---------------------------------------------------------------------------------
@@ -173,7 +173,7 @@
    *passed = 1'b0;
    *failed = *cyc_cnt > M4_MAX_CYC;
    
-   m4+imem($clog2($size(instrs)), 32, $reset, $pc, $port1_en, $port1_data[31:0], $$instrs[31:0])
+   m4+imem($clog2($size(instrs)), 32, $reset, $pc, $port1_en, $port1_data[31:0], $$instr[31:0])
    m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
    m4+dmem(32, 32, $reset, $result[6:2], $is_s_instr, $src2_value[31:0], $is_load, $ld_data)
    m4+cpu_viz()
