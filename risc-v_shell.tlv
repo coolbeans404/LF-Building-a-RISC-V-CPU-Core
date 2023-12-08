@@ -3,15 +3,14 @@
    // This code can be found in: https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/risc-v_shell.tlv
    
    m4_include_lib(['https://raw.githubusercontent.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/gfmpw1/lib/risc-v_shell_lib.tlv'])
-
-
+   
    //---------------------------------------------------------------------------------
    m4_test_prog()	//RV32I-I/S test
    //---------------------------------------------------------------------------------
 
-
 \SV
    m4_makerchip_module   // (Expanded in Nav-TLV pane.)
+
    /* verilator lint_on WIDTH */
 \TLV
    
@@ -26,8 +25,15 @@
     $pc+32'd4;
    
    
-   //IMem -- Instantiating a Verilog Macro
-   //`READONLY_MEM($pc, $$instr[31:0])
+   //IMem - external or $pc set addr 
+   $imem_addr[4:0] = $prog_mem ? $imem_addr_in[4:0] : $pc[4:0];
+   
+   //IMem - Write
+   $imem_wr_en = $prog_mem ? 1'b1 : 1'b0;
+   $imem_wr_data[31:0] = $imem_wr_in[31:0];
+   
+   //IMem - spyread
+   $imem_rd_out[31:0] = $imem_rd_data[31:0];
    
    //start Decode
    //opcode
@@ -169,15 +175,22 @@
    $br_tgt_pc[31:0] = $pc + $imm;
    $jalr_tgt_pc[31:0] = $src1_value + $imm;
    
-   // Assert these to end simulation (before Makerchip cycle limit).
-   *passed = 1'b0;
-   *failed = *cyc_cnt > M4_MAX_CYC;
    
-   $port1_en = 1'b0;
+   //DMem - external or $result set addr 
+   $dmem_addr[4:0] = $prog_mem ? $dmem_addr_in[4:0] : $result[6:2];
    
-   m4+imem(58, 32, $reset, $pc, $port1_en, $$instr[31:0], $readimem[31:0])
+   //DMem - Write Potential Collision
+   $dmem_wr_en = ($prog_mem || $is_s_instr) ? 1'b1 : 1'b0;
+   $dmem_wr_data[31:0] = $src2_value[31:0];
+   $dmem_wr_data[31:0] = $dmem_wr_in[31:0];
+   
+   //IMem - spyread
+   $dmem_rd_en = ($read_mem || $is_load) ? 1'b1 : 1'b0;
+   $dmem_rd_out[31:0] = $dmem_rd_data[31:0];
+   
+   m4+imem(58, 32, $reset, $imem_addr, $imem_wr_en, $imem_wr_data, $imem_rd_data)
    m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
-   m4+dmem(32, 32, $reset, $result[6:2], $is_s_instr, $src2_value[31:0], $is_load, $ld_data)
+   m4+dmem(64, 32, $reset, $dmem_addr, $dmem_wr_en, $dmem_wr_data[31:0], $dmem_rd_en, $dmem_rd_data)
    m4+cpu_viz()
 \SV
    endmodule
