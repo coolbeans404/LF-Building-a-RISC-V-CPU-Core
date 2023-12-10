@@ -2,20 +2,26 @@
 //_\SV
    // This code can be found in: https://github.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/risc-v_shell.tlv
    
-   // Included URL: "https://raw.githubusercontent.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/main/lib/risc-v_shell_lib.tlv"// Included URL: "https://raw.githubusercontent.com/stevehoover/warp-v_includes/1d1023ccf8e7b0a8cf8e8fc4f0a823ebb61008e3/risc-v_defs.tlv"
-
-
+   // Included URL: "https://raw.githubusercontent.com/coolbeans404/LF-Building-a-RISC-V-CPU-Core/gfmpw1/lib/risc-v_shell_lib.tlv"// Included URL: "https://raw.githubusercontent.com/stevehoover/warp-v_includes/1d1023ccf8e7b0a8cf8e8fc4f0a823ebb61008e3/risc-v_defs.tlv"
+   
    //---------------------------------------------------------------------------------
-   `define READONLY_MEM(ADDR, DATA) logic [31:0] instrs [0:58-1]; 
-   assign DATA = instrs[ADDR[$clog2($size(instrs)) + 1 : 2]]; 
-   assign instrs = '{{12'b10101, 5'd0, 3'b000, 5'd1, 7'b0010011}, {12'b111, 5'd0, 3'b000, 5'd2, 7'b0010011}, {12'b111111111100, 5'd0, 3'b000, 5'd3, 7'b0010011}, {12'b1011100, 5'd1, 3'b111, 5'd5, 7'b0010011}, {12'b10101, 5'd5, 3'b100, 5'd5, 7'b0010011}, {12'b1011100, 5'd1, 3'b110, 5'd6, 7'b0010011}, {12'b1011100, 5'd6, 3'b100, 5'd6, 7'b0010011}, {12'b111, 5'd1, 3'b000, 5'd7, 7'b0010011}, {12'b11101, 5'd7, 3'b100, 5'd7, 7'b0010011}, {6'b000000, 6'b110, 5'd1, 3'b001, 5'd8, 7'b0010011}, {12'b10101000001, 5'd8, 3'b100, 5'd8, 7'b0010011}, {6'b000000, 6'b10, 5'd1, 3'b101, 5'd9, 7'b0010011}, {12'b100, 5'd9, 3'b100, 5'd9, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b111, 5'd10, 7'b0110011}, {12'b100, 5'd10, 3'b100, 5'd10, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b110, 5'd11, 7'b0110011}, {12'b10110, 5'd11, 3'b100, 5'd11, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b100, 5'd12, 7'b0110011}, {12'b10011, 5'd12, 3'b100, 5'd12, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b000, 5'd13, 7'b0110011}, {12'b11101, 5'd13, 3'b100, 5'd13, 7'b0010011}, {7'b0100000, 5'd2, 5'd1, 3'b000, 5'd14, 7'b0110011}, {12'b1111, 5'd14, 3'b100, 5'd14, 7'b0010011}, {7'b0000000, 5'd2, 5'd2, 3'b001, 5'd15, 7'b0110011}, {12'b1110000001, 5'd15, 3'b100, 5'd15, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b101, 5'd16, 7'b0110011}, {12'b1, 5'd16, 3'b100, 5'd16, 7'b0010011}, {7'b0000000, 5'd1, 5'd2, 3'b011, 5'd17, 7'b0110011}, {12'b0, 5'd17, 3'b100, 5'd17, 7'b0010011}, {12'b10101, 5'd2, 3'b011, 5'd18, 7'b0010011}, {12'b0, 5'd18, 3'b100, 5'd18, 7'b0010011}, {20'b00000000000000000000, 5'd19, 7'b0110111}, {12'b1, 5'd19, 3'b100, 5'd19, 7'b0010011}, {6'b010000, 6'b1, 5'd3, 3'b101, 5'd20, 7'b0010011}, {12'b111111111111, 5'd20, 3'b100, 5'd20, 7'b0010011}, {7'b0000000, 5'd1, 5'd3, 3'b010, 5'd21, 7'b0110011}, {12'b0, 5'd21, 3'b100, 5'd21, 7'b0010011}, {12'b1, 5'd3, 3'b010, 5'd22, 7'b0010011}, {12'b0, 5'd22, 3'b100, 5'd22, 7'b0010011}, {7'b0100000, 5'd2, 5'd1, 3'b101, 5'd23, 7'b0110011}, {12'b1, 5'd23, 3'b100, 5'd23, 7'b0010011}, {20'b00000000000000000100, 5'd4, 7'b0010111}, {6'b000000, 6'b111, 5'd4, 3'b101, 5'd24, 7'b0010011}, {12'b10000000, 5'd24, 3'b100, 5'd24, 7'b0010011}, {1'b0, 10'b0000000010, 1'b0, 8'b00000000, 5'd25, 7'b1101111}, {20'b00000000000000000000, 5'd4, 7'b0010111}, {7'b0000000, 5'd4, 5'd25, 3'b100, 5'd25, 7'b0110011}, {12'b1, 5'd25, 3'b100, 5'd25, 7'b0010011}, {12'b10000, 5'd4, 3'b000, 5'd26, 7'b1100111}, {7'b0100000, 5'd4, 5'd26, 3'b000, 5'd26, 7'b0110011}, {12'b111111110001, 5'd26, 3'b000, 5'd26, 7'b0010011}, {7'b0000000, 5'd1, 5'd2, 3'b010, 5'b00001, 7'b0100011}, {12'b1, 5'd2, 3'b010, 5'd27, 7'b0000011}, {12'b10100, 5'd27, 3'b100, 5'd27, 7'b0010011}, {12'b1, 5'd0, 3'b000, 5'd28, 7'b0010011}, {12'b1, 5'd0, 3'b000, 5'd29, 7'b0010011}, {12'b1, 5'd0, 3'b000, 5'd30, 7'b0010011}, {1'b0, 10'b0000000000, 1'b0, 8'b00000000, 5'd0, 7'b1101111}};	//RV32I-I/S test
+   `define READONLY_MEM(ADDR, DATA) logic [31:0] instrs [0:58-1]; assign DATA = instrs[ADDR[$clog2($size(instrs)) + 1 : 2]]; assign instrs = '{{12'b10101, 5'd0, 3'b000, 5'd1, 7'b0010011}, {12'b111, 5'd0, 3'b000, 5'd2, 7'b0010011}, {12'b111111111100, 5'd0, 3'b000, 5'd3, 7'b0010011}, {12'b1011100, 5'd1, 3'b111, 5'd5, 7'b0010011}, {12'b10101, 5'd5, 3'b100, 5'd5, 7'b0010011}, {12'b1011100, 5'd1, 3'b110, 5'd6, 7'b0010011}, {12'b1011100, 5'd6, 3'b100, 5'd6, 7'b0010011}, {12'b111, 5'd1, 3'b000, 5'd7, 7'b0010011}, {12'b11101, 5'd7, 3'b100, 5'd7, 7'b0010011}, {6'b000000, 6'b110, 5'd1, 3'b001, 5'd8, 7'b0010011}, {12'b10101000001, 5'd8, 3'b100, 5'd8, 7'b0010011}, {6'b000000, 6'b10, 5'd1, 3'b101, 5'd9, 7'b0010011}, {12'b100, 5'd9, 3'b100, 5'd9, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b111, 5'd10, 7'b0110011}, {12'b100, 5'd10, 3'b100, 5'd10, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b110, 5'd11, 7'b0110011}, {12'b10110, 5'd11, 3'b100, 5'd11, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b100, 5'd12, 7'b0110011}, {12'b10011, 5'd12, 3'b100, 5'd12, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b000, 5'd13, 7'b0110011}, {12'b11101, 5'd13, 3'b100, 5'd13, 7'b0010011}, {7'b0100000, 5'd2, 5'd1, 3'b000, 5'd14, 7'b0110011}, {12'b1111, 5'd14, 3'b100, 5'd14, 7'b0010011}, {7'b0000000, 5'd2, 5'd2, 3'b001, 5'd15, 7'b0110011}, {12'b1110000001, 5'd15, 3'b100, 5'd15, 7'b0010011}, {7'b0000000, 5'd2, 5'd1, 3'b101, 5'd16, 7'b0110011}, {12'b1, 5'd16, 3'b100, 5'd16, 7'b0010011}, {7'b0000000, 5'd1, 5'd2, 3'b011, 5'd17, 7'b0110011}, {12'b0, 5'd17, 3'b100, 5'd17, 7'b0010011}, {12'b10101, 5'd2, 3'b011, 5'd18, 7'b0010011}, {12'b0, 5'd18, 3'b100, 5'd18, 7'b0010011}, {20'b00000000000000000000, 5'd19, 7'b0110111}, {12'b1, 5'd19, 3'b100, 5'd19, 7'b0010011}, {6'b010000, 6'b1, 5'd3, 3'b101, 5'd20, 7'b0010011}, {12'b111111111111, 5'd20, 3'b100, 5'd20, 7'b0010011}, {7'b0000000, 5'd1, 5'd3, 3'b010, 5'd21, 7'b0110011}, {12'b0, 5'd21, 3'b100, 5'd21, 7'b0010011}, {12'b1, 5'd3, 3'b010, 5'd22, 7'b0010011}, {12'b0, 5'd22, 3'b100, 5'd22, 7'b0010011}, {7'b0100000, 5'd2, 5'd1, 3'b101, 5'd23, 7'b0110011}, {12'b1, 5'd23, 3'b100, 5'd23, 7'b0010011}, {20'b00000000000000000100, 5'd4, 7'b0010111}, {6'b000000, 6'b111, 5'd4, 3'b101, 5'd24, 7'b0010011}, {12'b10000000, 5'd24, 3'b100, 5'd24, 7'b0010011}, {1'b0, 10'b0000000010, 1'b0, 8'b00000000, 5'd25, 7'b1101111}, {20'b00000000000000000000, 5'd4, 7'b0010111}, {7'b0000000, 5'd4, 5'd25, 3'b100, 5'd25, 7'b0110011}, {12'b1, 5'd25, 3'b100, 5'd25, 7'b0010011}, {12'b10000, 5'd4, 3'b000, 5'd26, 7'b1100111}, {7'b0100000, 5'd4, 5'd26, 3'b000, 5'd26, 7'b0110011}, {12'b111111110001, 5'd26, 3'b000, 5'd26, 7'b0010011}, {7'b0000000, 5'd1, 5'd2, 3'b010, 5'b00001, 7'b0100011}, {12'b1, 5'd2, 3'b010, 5'd27, 7'b0000011}, {12'b10100, 5'd27, 3'b100, 5'd27, 7'b0010011}, {12'b1, 5'd0, 3'b000, 5'd28, 7'b0010011}, {12'b1, 5'd0, 3'b000, 5'd29, 7'b0010011}, {12'b1, 5'd0, 3'b000, 5'd30, 7'b0010011}, {1'b0, 10'b0000000000, 1'b0, 8'b00000000, 5'd0, 7'b1101111}};	//RV32I-I/S test
    //---------------------------------------------------------------------------------
-
 
 //_\SV
-   module top(input wire clk, input wire reset, input wire [31:0] cyc_cnt, output wire passed, output wire failed);    /* verilator lint_save */ /* verilator lint_off UNOPTFLAT */  bit [256:0] RW_rand_raw; bit [256+63:0] RW_rand_vect; pseudo_rand #(.WIDTH(257)) pseudo_rand (clk, reset, RW_rand_raw[256:0]); assign RW_rand_vect[256+63:0] = {RW_rand_raw[62:0], RW_rand_raw};  /* verilator lint_restore */  /* verilator lint_off WIDTH */ /* verilator lint_off UNOPTFLAT */   // (Expanded in Nav-TLV pane.)
+   module top(input logic clk, 
+              input logic reset,
+              input logic prog_mem,
+              input logic [4:0] imem_addr_in,
+              input logic [31:0] imem_wr_in,
+              output reg [31:0] imem_rd_out,
+              input logic read_mem,
+              input logic [4:0] dmem_addr_in,
+              input logic [31:0] dmem_wr_in,
+              output logic [31:0] dmem_rd_out);
+
    /* verilator lint_on WIDTH */
-`include "design_gen.sv" //_\TLV
+`include "rmyth_gen.sv" //_\TLV
    
    assign L0_reset_a0 = reset;
    
@@ -28,8 +34,15 @@
     L0_pc_a0+32'd4;
    
    
-   //IMem -- Instantiating a Verilog Macro
-   `READONLY_MEM(L0_pc_a0, L0_instr_a0[31:0])
+   //IMem - external or $pc set addr 
+   assign L0_imem_addr_a0[4:0] = L0_prog_mem_a0 ? L0_imem_addr_in_a0 : L0_pc_a0[6:2];
+   
+   //IMem - Write
+   assign L0_imem_wr_en_a0 = L0_prog_mem_a0 ? 1'b1 : 1'b0;
+   assign L0_imem_wr_data_a0[31:0] = L0_imem_wr_in_a0;
+   
+   //IMem - spyread
+   assign L0_imem_rd_out_a0 = L0_imem_rd_data_a0[31:0];
    
    //start Decode
    //opcode
@@ -172,7 +185,30 @@
    assign L0_jalr_tgt_pc_a0[31:0] = L0_src1_value_a0 + L0_imm_a0;
    
    
-   `line 125 "riscvshelllib.tlv" 1   // Instantiated from risc-v_shell.tlv, 176 as: m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
+   //DMem - external or $result set addr 
+   assign L0_dmem_addr_a0[4:0] = L0_prog_mem_a0 ? L0_dmem_addr_in_a0[4:0] : L0_result_a0[6:2];
+   
+   //DMem - Write Potential Collision
+   assign L0_dmem_wr_en_a0 = (L0_prog_mem_a0 || L0_is_s_instr_a0) ? 1'b1 : 1'b0;
+   assign L0_dmem_wr_data_a0[31:0] = L0_src2_value_a0[31:0];
+   assign L0_dmem_wr_data_a0[31:0] = L0_dmem_wr_in_a0[31:0];
+   
+   //IMem - spyread
+   assign L0_dmem_rd_en_a0 = (L0_read_mem_a0 || L0_is_load_a0) ? 1'b1 : 1'b0;
+   assign L0_dmem_rd_out_a0 = L0_dmem_rd_data_a0[31:0];
+   
+   `line 188 "riscvshelllib.tlv" 1   // Instantiated from risc-v_shell.tlv, 200 as: m4+imem(58, 32, $reset, $imem_addr, $imem_wr_en, $imem_wr_data, $imem_rd_data)
+      // Allow expressions for most inputs, so define input signals.
+      assign L0_imem1_wr_en_a0 = L0_imem_wr_en_a0;
+      assign L0_imem1_addr_a0[$clog2(58)-1:0] = L0_imem_addr_a0;
+      assign L0_imem1_wr_data_a0[32-1:0] = L0_imem_wr_data_a0;
+      
+      assign L0_imem1_rd_en_a0 = 1'b1; //always readable
+      assign L0_imem_rd_data_a0[32-1:0] = L0_imem1_rd_en_a0 ? Imem_value_a0[L0_imem1_addr_a0] : 'X;
+            
+   //_\end_source
+   `line 201 "risc-v_shell.tlv" 2
+   `line 125 "riscvshelllib.tlv" 1   // Instantiated from risc-v_shell.tlv, 201 as: m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)
       assign L0_rf1_wr_en_a0 = L0_rd_valid_a0;
       assign L0_rf1_wr_index_a0[$clog2(32)-1:0]  = L0_rd_a0[4:0];
       assign L0_rf1_wr_data_a0[32-1:0] = L0_result_rf_a0[31:0];
@@ -191,26 +227,164 @@
       
       assign L0_src1_value_a0[32-1:0]  =  L0_rf1_rd_en1_a0 ? Xreg_value_a0[L0_rf1_rd_index1_a0] : 'X;
       assign L0_src2_value_a0[32-1:0]  =  L0_rf1_rd_en2_a0 ? Xreg_value_a0[L0_rf1_rd_index2_a0] : 'X;
-     
-            
+      
+      for (xreg = 0; xreg <= 31; xreg++) begin : L1b_Xreg //_/xreg
+         /* Viz omitted here */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         end
+   		 
    //_\end_source
-   `line 177 "risc-v_shell.tlv" 2
-   `line 187 "riscvshelllib.tlv" 1   // Instantiated from risc-v_shell.tlv, 177 as: m4+dmem(32, 32, $reset, $result[6:2], $is_s_instr, $src2_value[31:0], $is_load, $ld_data)
+   `line 202 "risc-v_shell.tlv" 2
+   `line 198 "riscvshelllib.tlv" 1   // Instantiated from risc-v_shell.tlv, 202 as: m4+dmem(64, 32, $reset, $dmem_addr, $dmem_wr_en, $dmem_wr_data[31:0], $dmem_rd_en, $dmem_rd_data)
       // Allow expressions for most inputs, so define input signals.
-      assign L0_dmem1_wr_en_a0 = L0_is_s_instr_a0;
-      assign L0_dmem1_addr_a0[$clog2(32)-1:0] = L0_result_a0[6:2];
-      assign L0_dmem1_wr_data_a0[32-1:0] = L0_src2_value_a0[31:0];
+      assign L0_dmem1_wr_en_a0 = L0_dmem_wr_en_a0;
+      assign L0_dmem1_addr_a0[$clog2(64)-1:0] = L0_dmem_addr_a0;
+      assign L0_dmem1_wr_data_a0[32-1:0] = L0_dmem_wr_data_a0[31:0];
       
-      assign L0_dmem1_rd_en_a0 = L0_is_load_a0;
+      assign L0_dmem1_rd_en_a0 = L0_dmem_rd_en_a0;
       
-      for (dmem = 0; dmem <= 31; dmem++) begin : L1_Dmem logic L1_wr_a0; //_/dmem
+      for (dmem = 0; dmem <= 63; dmem++) begin : L1_Dmem logic L1_wr_a0; //_/dmem
          assign L1_wr_a0 = L0_dmem1_wr_en_a0 && (L0_dmem1_addr_a0 == dmem);
          assign Dmem_value_n1[dmem][32-1:0] = L0_reset_a0 ? 0                 :
                                  L1_wr_a0         ? L0_dmem1_wr_data_a0 :
                                                Dmem_value_a0[dmem][32-1:0]; end
       
-      assign L0_ld_data_a0[32-1:0] = L0_dmem1_rd_en_a0 ? Dmem_value_a0[L0_dmem1_addr_a0] : 'X;
+      assign L0_dmem_rd_data_a0[32-1:0] = L0_dmem1_rd_en_a0 ? Dmem_value_a0[L0_dmem1_addr_a0] : 'X;
+      for (dmem = 0; dmem <= 63; dmem++) begin : L1b_Dmem //_/dmem
+         /* Viz omitted here */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         end
    //_\end_source
+   `line 203 "risc-v_shell.tlv" 2
+   `line 252 "riscvshelllib.tlv" 1   // Instantiated from risc-v_shell.tlv, 203 as: m4+cpu_viz()
+      // String representations of the instructions for debug.
+      /*SV_plus*/
+         // A default signal for ones that are not found.
+         logic sticky_zero;
+         assign sticky_zero = 0;
+         // Instruction strings from the assembler.
+         logic [40*8-1:0] instr_strs [0:58];
+         assign instr_strs = '{ "(I) ADDI x1,x0,10101                    ",  "(I) ADDI x2,x0,111                      ",  "(I) ADDI x3,x0,111111111100             ",  "(I) ANDI x5,x1,1011100                  ",  "(I) XORI x5,x5,10101                    ",  "(I) ORI x6,x1,1011100                   ",  "(I) XORI x6,x6,1011100                  ",  "(I) ADDI x7,x1,111                      ",  "(I) XORI x7,x7,11101                    ",  "(I) SLLI x8,x1,110                      ",  "(I) XORI x8,x8,10101000001              ",  "(I) SRLI x9,x1,10                       ",  "(I) XORI x9,x9,100                      ",  "(R) AND r10,x1,x2                       ",  "(I) XORI x10,x10,100                    ",  "(R) OR x11,x1,x2                        ",  "(I) XORI x11,x11,10110                  ",  "(R) XOR x12,x1,x2                       ",  "(I) XORI x12,x12,10011                  ",  "(R) ADD x13,x1,x2                       ",  "(I) XORI x13,x13,11101                  ",  "(R) SUB x14,x1,x2                       ",  "(I) XORI x14,x14,1111                   ",  "(R) SLL x15,x2,x2                       ",  "(I) XORI x15,x15,1110000001             ",  "(R) SRL x16,x1,x2                       ",  "(I) XORI x16,x16,1                      ",  "(R) SLTU x17,x2,x1                      ",  "(I) XORI x17,x17,0                      ",  "(I) SLTIU x18,x2,10101                  ",  "(I) XORI x18,x18,0                      ",  "(U) LUI x19,0                           ",  "(I) XORI x19,x19,1                      ",  "(I) SRAI x20,x3,1                       ",  "(I) XORI x20,x20,111111111111           ",  "(R) SLT x21,x3,x1                       ",  "(I) XORI x21,x21,0                      ",  "(I) SLTI x22,x3,1                       ",  "(I) XORI x22,x22,0                      ",  "(R) SRA x23,x1,x2                       ",  "(I) XORI x23,x23,1                      ",  "(U) AUIPC x4,100                        ",  "(I) SRLI x24,x4,111                     ",  "(I) XORI x24,x24,10000000               ",  "(J) JAL x25,10                          ",  "(U) AUIPC x4,0                          ",  "(R) XOR x25,x25,x4                      ",  "(I) XORI x25,x25,1                      ",  "(I) JALR x26,x4,10000                   ",  "(R) SUB x26,x26,x4                      ",  "(I) ADDI x26,x26,111111110001           ",  "(S) SW x2,x1,1                          ",  "(I) LW x27,x2,1                         ",  "(I) XORI x27,x27,10100                  ",  "(I) ADDI x28,x0,1                       ",  "(I) ADDI x29,x0,1                       ",  "(I) ADDI x30,x0,1                       ",  "(J) JAL x0,0                            ",  "END                                     "};
+      
+      /* Viz omitted here */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -646,10 +820,10 @@
          end
          
    //_\end_source
-   `line 179 "risc-v_shell.tlv" 2
+   `line 204 "risc-v_shell.tlv" 2
 //_\SV
    endmodule
 
 
-// Undefine macros defined by SandPiper (in "design_gen.sv").
+// Undefine macros defined by SandPiper (in "rmyth_gen.sv").
 `undef BOGUS_USE

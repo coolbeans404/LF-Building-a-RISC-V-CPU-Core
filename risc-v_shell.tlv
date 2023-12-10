@@ -9,7 +9,16 @@
    //---------------------------------------------------------------------------------
 
 \SV
-   m4_makerchip_module   // (Expanded in Nav-TLV pane.)
+   module top(input logic clk, 
+              input logic reset,
+              input logic prog_mem,
+              input logic [4:0] imem_addr_in,
+              input logic [31:0] imem_wr_in,
+              output reg [31:0] imem_rd_out,
+              input logic read_mem,
+              input logic [4:0] dmem_addr_in,
+              input logic [31:0] dmem_wr_in,
+              output logic [31:0] dmem_rd_out);
 
    /* verilator lint_on WIDTH */
 \TLV
@@ -26,14 +35,14 @@
    
    
    //IMem - external or $pc set addr 
-   $imem_addr[4:0] = $prog_mem ? $imem_addr_in[4:0] : $pc[4:0];
+   $imem_addr[4:0] = $prog_mem ? $imem_addr_in : $pc[6:2];
    
    //IMem - Write
    $imem_wr_en = $prog_mem ? 1'b1 : 1'b0;
-   $imem_wr_data[31:0] = $imem_wr_in[31:0];
+   $imem_wr_data[31:0] = $imem_wr_in;
    
    //IMem - spyread
-   $imem_rd_out[31:0] = $imem_rd_data[31:0];
+   $imem_rd_out = $imem_rd_data[31:0];
    
    //start Decode
    //opcode
@@ -186,7 +195,7 @@
    
    //IMem - spyread
    $dmem_rd_en = ($read_mem || $is_load) ? 1'b1 : 1'b0;
-   $dmem_rd_out[31:0] = $dmem_rd_data[31:0];
+   $dmem_rd_out = $dmem_rd_data[31:0];
    
    m4+imem(58, 32, $reset, $imem_addr, $imem_wr_en, $imem_wr_data, $imem_rd_data)
    m4+rf(32, 32, $reset, $rd_valid, $rd[4:0], $result_rf[31:0], $rs1_valid, $rs1[4:0], $src1_value, $rs2_valid, $rs2[4:0], $src2_value)

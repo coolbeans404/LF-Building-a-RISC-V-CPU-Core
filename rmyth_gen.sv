@@ -20,7 +20,7 @@ logic [31:0] L0_br_tgt_pc_a0;
 logic [10:0] L0_dec_bits_a0;
 
 // For $dmem1_addr.
-logic [$clog2(32)-1:0] L0_dmem1_addr_a0;
+logic [$clog2(64)-1:0] L0_dmem1_addr_a0;
 
 // For $dmem1_rd_en.
 logic L0_dmem1_rd_en_a0;
@@ -31,11 +31,68 @@ logic [32-1:0] L0_dmem1_wr_data_a0;
 // For $dmem1_wr_en.
 logic L0_dmem1_wr_en_a0;
 
+// For $dmem_addr.
+logic [4:0] L0_dmem_addr_a0;
+
+// For $dmem_addr_in.
+logic [4:0] L0_dmem_addr_in_a0;
+
+// For $dmem_rd_data.
+logic [32-1:0] L0_dmem_rd_data_a0;
+
+// For $dmem_rd_en.
+logic L0_dmem_rd_en_a0;
+
+// For $dmem_rd_out.
+logic L0_dmem_rd_out_a0;
+
+// For $dmem_wr_data.
+logic [31:0] L0_dmem_wr_data_a0;
+
+// For $dmem_wr_en.
+logic L0_dmem_wr_en_a0;
+
+// For $dmem_wr_in.
+logic [31:0] L0_dmem_wr_in_a0;
+
 // For $func3.
 logic [2:0] L0_func3_a0;
 
 // For $func3_valid.
 logic L0_func3_valid_a0;
+
+// For $imem1_addr.
+logic [$clog2(58)-1:0] L0_imem1_addr_a0;
+
+// For $imem1_rd_en.
+logic L0_imem1_rd_en_a0;
+
+// For $imem1_wr_data.
+logic [32-1:0] L0_imem1_wr_data_a0;
+
+// For $imem1_wr_en.
+logic L0_imem1_wr_en_a0;
+
+// For $imem_addr.
+logic [4:0] L0_imem_addr_a0;
+
+// For $imem_addr_in.
+logic L0_imem_addr_in_a0;
+
+// For $imem_rd_data.
+logic [32-1:0] L0_imem_rd_data_a0;
+
+// For $imem_rd_out.
+logic L0_imem_rd_out_a0;
+
+// For $imem_wr_data.
+logic [31:0] L0_imem_wr_data_a0;
+
+// For $imem_wr_en.
+logic L0_imem_wr_en_a0;
+
+// For $imem_wr_in.
+logic L0_imem_wr_in_a0;
 
 // For $imm.
 logic [31:0] L0_imm_a0;
@@ -158,7 +215,7 @@ logic L0_is_xori_a0;
 logic [31:0] L0_jalr_tgt_pc_a0;
 
 // For $ld_data.
-logic [32-1:0] L0_ld_data_a0;
+logic L0_ld_data_a0;
 
 // For $next_pc.
 logic [31:0] L0_next_pc_a0,
@@ -170,11 +227,17 @@ logic [6:0] L0_opcode_a0;
 // For $pc.
 logic [31:0] L0_pc_a0;
 
+// For $prog_mem.
+logic L0_prog_mem_a0;
+
 // For $rd.
 logic [4:0] L0_rd_a0;
 
 // For $rd_valid.
 logic L0_rd_valid_a0;
+
+// For $read_mem.
+logic L0_read_mem_a0;
 
 // For $reset.
 logic L0_reset_a0;
@@ -243,8 +306,11 @@ logic [32-1:0] L0_src2_value_a0;
 logic L0_taken_br_a0;
 
 // For /dmem$value.
-logic [32-1:0] Dmem_value_n1 [31:0],
-               Dmem_value_a0 [31:0];
+logic [32-1:0] Dmem_value_n1 [63:0],
+               Dmem_value_a0 [63:0];
+
+// For /imem$value.
+logic Imem_value_a0 [57:0];
 
 // For /xreg$value.
 logic [32-1:0] Xreg_value_n1 [31:0],
@@ -252,16 +318,49 @@ logic [32-1:0] Xreg_value_n1 [31:0],
 
 
 
+   // Staging of signal $dmem_addr_in, which had no assignment.
+   assign L0_dmem_addr_in_a0[4:0] = 'x;
+
+   // Staging of signal $dmem_wr_in, which had no assignment.
+   assign L0_dmem_wr_in_a0[31:0] = 'x;
+
+   // Staging of signal $imem_addr_in, which had no assignment.
+   assign L0_imem_addr_in_a0 = 'x;
+
+   // Staging of signal $imem_wr_in, which had no assignment.
+   assign L0_imem_wr_in_a0 = 'x;
+
+   // Staging of signal $instr, which had no assignment.
+   assign L0_instr_a0[31:0] = 'x;
+
+   // Staging of signal $ld_data, which had no assignment.
+   assign L0_ld_data_a0 = 'x;
+
    // Staging of $next_pc.
    always_ff @(posedge clk) L0_next_pc_a1[31:0] <= L0_next_pc_a0[31:0];
 
+   // Staging of signal $prog_mem, which had no assignment.
+   assign L0_prog_mem_a0 = 'x;
+
+   // Staging of signal $read_mem, which had no assignment.
+   assign L0_read_mem_a0 = 'x;
+
 
    //
-   // Scope: /dmem[31:0]
+   // Scope: /dmem[63:0]
    //
-   for (dmem = 0; dmem <= 31; dmem++) begin : L1gen_Dmem
+   for (dmem = 0; dmem <= 63; dmem++) begin : L1gen_Dmem
       // Staging of $value.
       always_ff @(posedge clk) Dmem_value_a0[dmem][32-1:0] <= Dmem_value_n1[dmem][32-1:0];
+
+   end
+
+   //
+   // Scope: /imem[57:0]
+   //
+   for (imem = 0; imem <= 57; imem++) begin : L1gen_Imem
+      // Staging of signal $value, which had no assignment.
+      assign Imem_value_a0[imem] = 'x;
 
    end
 
